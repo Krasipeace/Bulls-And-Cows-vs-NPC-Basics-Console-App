@@ -6,6 +6,60 @@ namespace BullsAndCows
     {
         static void Main(string[] args)
         {
+            WelcomeMessage();
+
+            int cgOne, cgTwo, cgThree, cgFour, counter;
+            string input;
+
+            GeneratingComputerNumber(out cgOne, out cgTwo, out cgThree, out cgFour, out input, out counter);
+
+            while (true)
+            {
+                Console.Write("Enter number (4 digits): ");                     //bugs, if you add letter + number.
+                input = Console.ReadLine();
+                counter++;
+
+                if (input == "iGiveUp")
+                {
+                    counter -= 1;
+                    GiveUpCondition(counter);
+
+                    return;
+                }
+
+                int userOne, userTwo, userThree, userFour;
+
+                GetUserNumber(input, out userOne, out userTwo, out userThree, out userFour);
+
+                while (input != "iGiveUp")
+                {
+                    int bullCounter = 0;
+                    int cowsCounter = 0;
+
+                    bullCounter = GetBulls(cgOne, cgTwo, cgThree, cgFour, userOne, userTwo, userThree, userFour, bullCounter);
+
+                    if (bullCounter == 4)
+                    {
+                        VictoryMessages(counter);
+
+                        return;
+                    }
+
+                    cowsCounter = GetCows(cgOne, cgTwo, cgThree, cgFour, userOne, userTwo, userThree, userFour, cowsCounter);
+
+                    if (cowsCounter <= 4 || bullCounter < 4)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"Keep trying you have found {bullCounter} bulls and {cowsCounter} cows...");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    }
+                }
+            }
+        }
+
+        static void WelcomeMessage()
+        {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("     ***   B  U  L  L  S    A  N  D    C  O  W  S   ***     ");
@@ -17,123 +71,118 @@ namespace BullsAndCows
             Console.WriteLine("If a number of the conjecture is contained in the secret number and is in the right place,");
             Console.WriteLine("it is BULL, if it is in a different place, it is COW.");
             Console.WriteLine();
-            
+
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Write iGiveUp to admit Defeat!");
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.White;          
+            Console.ForegroundColor = ConsoleColor.White;
+        }
 
+        static void GeneratingComputerNumber(out int cgOne, out int cgTwo, out int cgThree, out int cgFour, out string input, out int counter)
+        {
             int pcNumber = new Random().Next(1000, 9999);
 
             //Console.WriteLine(pcNumber);                                      //shows PC number
 
-            int cgOne = pcNumber / 1000 % 10;
-            int cgTwo = pcNumber / 100 % 10;
-            int cgThree = pcNumber / 10 % 10;
-            int cgFour = pcNumber / 1 % 10;
-            string input = string.Empty;
-            int counter = 0;
+            cgOne = pcNumber / 1000 % 10;
+            cgTwo = pcNumber / 100 % 10;
+            cgThree = pcNumber / 10 % 10;
+            cgFour = pcNumber / 1 % 10;
+            input = string.Empty;
+            counter = 0;
 
-            //Console.WriteLine($"{cgOne} + {cgTwo} + {cgThree} + {cgFour}");   //checking validity of number
+            //Console.WriteLine($"{cgOne} + {cgTwo} + {cgThree} + {cgFour}");   //shows each digit
+        }
 
-            while (true)
+        static void GiveUpCondition(int counter)
+        {
+            switch (counter)
             {
-                Console.Write("Enter number (4 digits): ");                     //bugs, if you add letter + number.
-                input = Console.ReadLine();
-                counter++;
-
-                if (input == "iGiveUp")
-                {
-                    counter -= 1;
-                    if (counter <= 1)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"You have been DEFEATED! Computer won after {counter} try...");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"You have been DEFEATED! Computer won after {counter} tries...");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    return;                    
-                }
-
-                int userNumber = int.Parse(input);
-
-                int userOne = userNumber / 1000 % 10;
-                int userTwo = userNumber / 100 % 10;
-                int userThree = userNumber / 10 % 10;
-                int userFour = userNumber / 1 % 10;
-
-
-                while (input != "iGiveUp")
-                {
-                    int bullCounter = 0;
-                    int cowsCounter = 0;
-                    if (userOne == cgOne)
-                    {
-                        bullCounter++;                                               
-                    }
-                    if (userTwo == cgTwo)
-                    {
-                        bullCounter++;                                              
-                    }
-                    if (userThree == cgThree)
-                    {
-                        bullCounter++;                                              
-                    }
-                    if (userFour == cgFour)
-                    {
-                        bullCounter++;                                             
-                    }
-                    if (bullCounter == 4)
-                    {
-                        
-                        if (counter <= 1)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"Lucky Guess! You have found the lost Bulls on the first try!!!");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"VICTORY! You have found the lost Bulls after {counter} tries!");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        return;
-                    }
-
-                    if (userOne == cgTwo || userOne == cgThree || userOne == cgFour)
-                    {
-                        cowsCounter++;                      
-                    }
-                    if (userTwo == cgOne || userTwo == cgThree || userTwo == cgFour)
-                    {
-                        cowsCounter++;                       
-                    }
-                    if (userThree == cgOne || userThree == cgTwo || userThree == cgFour)
-                    {
-                        cowsCounter++;                       
-                    }
-                    if (userFour == cgOne || userFour == cgTwo || userFour == cgThree)
-                    {
-                        cowsCounter++;                       
-                    }
-
-                    if (cowsCounter <= 4 || bullCounter < 4)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine($"Keep trying you have found {bullCounter} bulls and {cowsCounter} cows...");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        break;                                          
-                    }
-
-                }
-
+                case <= 1:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"You have been DEFEATED! Computer won after {counter} try...");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"You have been DEFEATED! Computer won after {counter} tries...");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
             }
         }
+
+        static void GetUserNumber(string input, out int userOne, out int userTwo, out int userThree, out int userFour)
+        {
+            int userNumber = int.Parse(input);
+
+            userOne = userNumber / 1000 % 10;
+            userTwo = userNumber / 100 % 10;
+            userThree = userNumber / 10 % 10;
+            userFour = userNumber / 1 % 10;
+        }
+
+        static void VictoryMessages(int counter)
+        {
+            if (counter <= 1)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Lucky Guess! You have found the lost Bulls on the first try!!!");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"VICTORY! You have found the lost Bulls after {counter} tries!");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            return;
+        }
+
+        static int GetBulls(int cgOne, int cgTwo, int cgThree, int cgFour, int userOne, int userTwo, int userThree, int userFour, int bullCounter)
+        {
+            if (userOne == cgOne)
+            {
+                bullCounter++;
+            }
+            if (userTwo == cgTwo)
+            {
+                bullCounter++;
+            }
+            if (userThree == cgThree)
+            {
+                bullCounter++;
+            }
+            if (userFour == cgFour)
+            {
+                bullCounter++;
+            }
+
+            return bullCounter;
+        }
+
+        static int GetCows(int cgOne, int cgTwo, int cgThree, int cgFour, int userOne, int userTwo, int userThree, int userFour, int cowsCounter)
+        {
+            if (userOne == cgTwo || userOne == cgThree || userOne == cgFour)
+            {
+                cowsCounter++;
+            }
+            if (userTwo == cgOne || userTwo == cgThree || userTwo == cgFour)
+            {
+                cowsCounter++;
+            }
+            if (userThree == cgOne || userThree == cgTwo || userThree == cgFour)
+            {
+                cowsCounter++;
+            }
+            if (userFour == cgOne || userFour == cgTwo || userFour == cgThree)
+            {
+                cowsCounter++;
+            }
+
+            return cowsCounter;
+        }
+
+
     }
 }
