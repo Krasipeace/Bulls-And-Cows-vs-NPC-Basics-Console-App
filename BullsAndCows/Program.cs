@@ -2,11 +2,11 @@
 
 namespace BullsAndCows
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            WelcomeMessage();
+            PrintWelcomeMessage();
 
             int cgOne, cgTwo, cgThree, cgFour, counter;
             string input;
@@ -15,14 +15,14 @@ namespace BullsAndCows
 
             while (true)
             {
-                Console.Write("Enter number (4 digits): ");                     //bugs, if you add letter + number.
+                Console.Write("Enter number (4 digits): ");
                 input = Console.ReadLine();
                 counter++;
 
                 if (input == "iGiveUp")
                 {
                     counter -= 1;
-                    GiveUpCondition(counter);
+                    PrintDefeatMessage(counter);
 
                     return;
                 }
@@ -40,7 +40,7 @@ namespace BullsAndCows
 
                     if (bullCounter == 4)
                     {
-                        VictoryMessages(counter);
+                        PrintVictoryMessage(counter);
 
                         return;
                     }
@@ -58,7 +58,7 @@ namespace BullsAndCows
             }
         }
 
-        static void WelcomeMessage()
+        static void PrintWelcomeMessage()
         {
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -94,7 +94,7 @@ namespace BullsAndCows
             //Console.WriteLine($"{cgOne} + {cgTwo} + {cgThree} + {cgFour}");   //shows each digit
         }
 
-        static void GiveUpCondition(int counter)
+        static void PrintDefeatMessage(int counter)
         {
             switch (counter)
             {
@@ -121,7 +121,7 @@ namespace BullsAndCows
             userFour = userNumber / 1 % 10;
         }
 
-        static void VictoryMessages(int counter)
+        static void PrintVictoryMessage(int counter)
         {
             if (counter <= 1)
             {
