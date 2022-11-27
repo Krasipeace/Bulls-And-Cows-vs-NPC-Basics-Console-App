@@ -8,10 +8,11 @@ namespace BullsAndCows
         {
             PrintWelcomeMessage();
 
-            int cgOne, cgTwo, cgThree, cgFour, counter;
+            bool isCheater = false;
+            int cgOne, cgTwo, cgThree, cgFour, counter, cheater;
             string input;
 
-            GeneratingComputerNumber(out cgOne, out cgTwo, out cgThree, out cgFour, out input, out counter);
+            GeneratingComputerNumber(out cgOne, out cgTwo, out cgThree, out cgFour, out input, out counter, out cheater);
 
             while (true)
             {
@@ -27,6 +28,16 @@ namespace BullsAndCows
                     return;
                 }
 
+                if (input == "ShowMeTheMilk")
+                {
+                    isCheater = true;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("YOU CHEATER!!!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(cheater);
+                    continue;
+                }
+
                 int userOne, userTwo, userThree, userFour;
 
                 GetUserNumber(input, out userOne, out userTwo, out userThree, out userFour);
@@ -40,7 +51,7 @@ namespace BullsAndCows
 
                     if (bullCounter == 4)
                     {
-                        PrintVictoryMessage(counter);
+                        PrintVictoryMessage(counter, isCheater);
 
                         return;
                     }
@@ -56,6 +67,7 @@ namespace BullsAndCows
                     }
                 }
             }
+
         }
 
         static void PrintWelcomeMessage()
@@ -78,9 +90,10 @@ namespace BullsAndCows
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        static void GeneratingComputerNumber(out int cgOne, out int cgTwo, out int cgThree, out int cgFour, out string input, out int counter)
+        static void GeneratingComputerNumber(out int cgOne, out int cgTwo, out int cgThree, out int cgFour, out string input, out int counter, out int cheater)
         {
             int pcNumber = new Random().Next(1000, 9999);
+            cheater = pcNumber;
 
             //Console.WriteLine(pcNumber);                                      //shows PC number
 
@@ -121,19 +134,28 @@ namespace BullsAndCows
             userFour = userNumber / 1 % 10;
         }
 
-        static void PrintVictoryMessage(int counter)
+        static void PrintVictoryMessage(int counter, bool isCheater)
         {
-            if (counter <= 1)
+            switch (counter)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Lucky Guess! You have found the lost Bulls on the first try!!!");
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"VICTORY! You have found the lost Bulls after {counter} tries!");
-                Console.ForegroundColor = ConsoleColor.White;
+                case <= 1 when !isCheater:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Lucky Guess! You have found the lost Bulls on the first try!!!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case > 1 when !isCheater:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"VICTORY! You have found the lost Bulls after {counter} tries!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                default:
+                    if (isCheater && counter > 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Cheated Victory! You have found the lost Bulls after {counter} tries!");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    break;
             }
 
             return;
