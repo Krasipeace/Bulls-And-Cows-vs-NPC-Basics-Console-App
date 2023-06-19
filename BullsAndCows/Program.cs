@@ -67,7 +67,6 @@ namespace BullsAndCows
                     }
                 }
             }
-
         }
 
         static void PrintWelcomeMessage()
@@ -204,7 +203,5 @@ namespace BullsAndCows
 
             return cowsCounter;
         }
-
-
     }
 }
