@@ -1,5 +1,4 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/krasipeace/bulls-and-cows-vs-npc-basics-console-app/badge)](https://www.codefactor.io/repository/github/krasipeace/bulls-and-cows-vs-npc-basics-console-app)
-<h2> Bulls and Cows vs.NPC (v.1.0) </h2>
 
 # Bulls and Cows Game
 
