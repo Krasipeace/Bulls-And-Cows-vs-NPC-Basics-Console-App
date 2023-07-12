@@ -1,8 +1,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/krasipeace/bulls-and-cows-vs-npc-basics-console-app/badge)](https://www.codefactor.io/repository/github/krasipeace/bulls-and-cows-vs-npc-basics-console-app)
 <h2> Bulls and Cows vs.NPC (v.1.0) </h2>
 
-GitHub Copilot: Sure, here's an example README.md file for the Bulls and Cows game:
-
 # Bulls and Cows Game
 
 Bulls and Cows is a logic game for guessing the number invented by the computer. After each move, the computer gives the number of matches. If a number of the conjecture is contained in the secret number and is in the right place, it is BULL, if it is in a different place, it is COW.
